@@ -9,7 +9,7 @@ import SecretBox from "./pages/SecretBox";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import Success from "./pages/Success";
+import Success from "./pages/success";
 import Wishlist from "./pages/Wishlist";
 import OrderHistory from "./pages/OrderHistory";
 import Admin from "./pages/Admin";
@@ -19,7 +19,7 @@ import Profile from "./pages/Profile";
 import Dashboard from "./pages/AdminDashboard";
 
 import Handbags from "./pages/handbags";
-import Perfume from "./pages/Perfume";
+import Perfume from "./pages/perfume";
 import PlaceOrder from "./pages/PlaceOrder";
 import TrackOrder from "./pages/TrackOrder";
 import BirthdayGifts from "./pages/BirthdayGifts";
