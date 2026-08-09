@@ -3,8 +3,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 import himProducts from "../data/himproducts";
-import products from "../data/Products";
-import herProducts from "../data/herProducts";
 import menBanner from "../assets/boysimage/boybanner.png";
 
 import {

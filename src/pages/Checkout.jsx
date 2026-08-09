@@ -10,6 +10,11 @@ import {
 } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 
+const generateOrderId = () => Date.now();
+const getTodayStr = () => new Date().toLocaleDateString("en-GB");
+const getDeliveryDateStr = () =>
+  new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString("en-GB");
+
 export default function Checkout() {
   const navigate = useNavigate();
 
@@ -40,6 +45,9 @@ export default function Checkout() {
   const ordersKey = currentUser
     ? `orders_${currentUser.email}`
     : "orders";
+
+  const [todayStr] = useState(getTodayStr);
+  const [deliveryDateDisplayStr] = useState(getDeliveryDateStr);
 
   const buyNow =
     JSON.parse(localStorage.getItem(buyNowKey)) || [];
@@ -95,7 +103,7 @@ const deliveryDate = new Date(orderDate);
 deliveryDate.setDate(orderDate.getDate() + 5);
 
 const newOrder = {
-  id: Date.now(),
+  id: generateOrderId(),
 
   form: {
     name: form.name,
@@ -115,7 +123,6 @@ const newOrder = {
   total,
 
   date: orderDate.toISOString(),
-deliveryDate: deliveryDate.toLocaleDateString("en-GB"),
   deliveryDate: deliveryDate.toLocaleDateString("en-GB"),
 
   status: "Pending",
@@ -267,23 +274,20 @@ localStorage.removeItem(cartKey);
     </div>
 
     {/* Order Summary */}
-   <div className="w-full lg:w-[350px] bg-pink-100 rounded-3xl shadow-xl p-4 sm:p-6">
+    <div className="w-full lg:w-[350px] bg-pink-100 rounded-3xl shadow-xl p-4 sm:p-6">
 
       <h2 className="text-xl sm:text-2xl font-bold mb-5">
         Order Summary
       </h2>
-<div className="bg-white rounded-2xl p-4 mb-6">
-  <p>
-    🗓️ Order Date : {new Date().toLocaleDateString("en-GB")}
-  </p>
+      <div className="bg-white rounded-2xl p-4 mb-6">
+        <p>
+          🗓️ Order Date : {todayStr}
+        </p>
 
-  <p className="text-green-600 font-semibold mt-2">
-    🚚 Delivery Date :{" "}
-    {new Date(
-      Date.now() + 5 * 24 * 60 * 60 * 1000
-    ).toLocaleDateString("en-GB")}
-  </p>
-</div>
+        <p className="text-green-600 font-semibold mt-2">
+          🚚 Delivery Date : {deliveryDateDisplayStr}
+        </p>
+      </div>
 
       {items.length === 0 ? (
         <p className="text-gray-500">Cart is empty.</p>

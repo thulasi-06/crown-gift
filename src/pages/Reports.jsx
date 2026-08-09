@@ -11,9 +11,9 @@ import { useNavigate } from "react-router-dom";
 export default function Reports() {
   const navigate = useNavigate();
 
-  const orders = JSON.parse(localStorage.getItem("orders")) || [];
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-  const products = JSON.parse(localStorage.getItem("products")) || [];
+  const orders = useMemo(() => JSON.parse(localStorage.getItem("orders")) || [], []);
+  const users = useMemo(() => JSON.parse(localStorage.getItem("users")) || [], []);
+  const products = useMemo(() => JSON.parse(localStorage.getItem("products")) || [], []);
 
   const totalRevenue = useMemo(() => {
     return orders.reduce((sum, order) => {

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import allProducts from "../data/allProducts";
 
 function ProductCard({ search = "" }) {
@@ -13,14 +13,9 @@ function ProductCard({ search = "" }) {
     ? `wishlist_${currentUser.email}`
     : "wishlist";
 
-  const [wishlist, setWishlist] = useState([]);
-
-  useEffect(() => {
-    const stored =
-      JSON.parse(localStorage.getItem(wishlistKey)) || [];
-
-    setWishlist(stored);
-  }, [wishlistKey]);
+  const [wishlist, setWishlist] = useState(
+    () => JSON.parse(localStorage.getItem(wishlistKey)) || []
+  );
 
   const toggleWishlist = (product) => {
     if (!currentUser) {
@@ -29,19 +24,13 @@ function ProductCard({ search = "" }) {
       return;
     }
 
-    let updated = [];
-
     const exists = wishlist.find(
       (item) => item.id === product.id
     );
 
-    if (exists) {
-      updated = wishlist.filter(
-        (item) => item.id !== product.id
-      );
-    } else {
-      updated = [...wishlist, product];
-    }
+    const updated = exists
+      ? wishlist.filter((item) => item.id !== product.id)
+      : [...wishlist, product];
 
     setWishlist(updated);
 

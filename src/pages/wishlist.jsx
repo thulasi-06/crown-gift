@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaHeart,
@@ -25,17 +25,9 @@ export default function Wishlist() {
     : "cart";
 
 
-  const [wishlist, setWishlist] = useState([]);
-
-
-  useEffect(() => {
-
-    const savedWishlist =
-      JSON.parse(localStorage.getItem(wishlistKey)) || [];
-
-    setWishlist(savedWishlist);
-
-  }, [wishlistKey]);
+  const [wishlist, setWishlist] = useState(
+    () => JSON.parse(localStorage.getItem(wishlistKey)) || []
+  );
 
 
   const removeItem = (id) => {

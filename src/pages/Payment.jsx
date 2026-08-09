@@ -5,28 +5,15 @@ import {
   FaMoneyBillWave,
   FaLock,
   FaGooglePay,
-  FaUniversity,
 } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 
 export default function Payment() {
   const navigate = useNavigate();
 
-  const currentUser = JSON.parse(
-    localStorage.getItem("currentUser")
-  );
-
   const order = JSON.parse(
     localStorage.getItem("currentOrder")
   );
-
-  const ordersKey = currentUser
-    ? `orders_${currentUser.email}`
-    : "orders";
-
-  const cartKey = currentUser
-    ? `cart_${currentUser.email}`
-    : "cart";
 
   const [paymentMethod, setPaymentMethod] =
     useState("COD");
@@ -47,17 +34,16 @@ export default function Payment() {
     return;
   }
 
-  order.payment = paymentMethod;
-  order.paymentStatus =
-    paymentMethod === "COD"
-      ? "Cash on Delivery"
-      : "Paid";
-
-  order.status = "Order Confirmed";
+  const updatedOrder = {
+    ...order,
+    payment: paymentMethod,
+    paymentStatus: paymentMethod === "COD" ? "Cash on Delivery" : "Paid",
+    status: "Order Confirmed",
+  };
 
   localStorage.setItem(
     "currentOrder",
-    JSON.stringify(order)
+    JSON.stringify(updatedOrder)
   );
 
   alert("Payment Successful 🎉");

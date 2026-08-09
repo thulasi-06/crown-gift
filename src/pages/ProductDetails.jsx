@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import allProducts from "../data/allProducts";
@@ -15,9 +15,16 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  // Find Product
+  const product = allProducts.find(
+    (item) => item.id === Number(id)
+  );
+
   const [search, setSearch] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage] = useState(
+    () => product?.image || ""
+  );
 
   // Current User
   const currentUser = JSON.parse(
@@ -33,32 +40,12 @@ export default function ProductDetails() {
     : "cart";
 
   // Heart State
-  const [isLiked, setIsLiked] = useState(false);
-
-
-  // Find Product
- const product = allProducts.find(
-  (item) => item.id === Number(id)
-);
-
-  // Selected Image
-  useEffect(() => {
-    if (product) {
-      setSelectedImage(product.image);
-    }
-  }, [product]);
-
-  // Wishlist Status
-  useEffect(() => {
-    if (!product) return;
-
+  const [isLiked, setIsLiked] = useState(() => {
+    if (!product) return false;
     const wishlist =
       JSON.parse(localStorage.getItem(wishlistKey)) || [];
-
-    setIsLiked(
-      wishlist.some((item) => item.id === product.id)
-    );
-  }, [product, wishlistKey]);
+    return wishlist.some((item) => item.id === product.id);
+  });
 
   if (!product) {
     return (

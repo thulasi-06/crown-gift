@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import allProducts from "../data/allProducts";
 
@@ -13,9 +13,6 @@ import {
   FaSearch,
   FaUserCircle,
   FaSignOutAlt,
-  FaPlus,
-  FaEdit,
-  FaTrash,
 } from "react-icons/fa";
 
 
@@ -26,109 +23,52 @@ export default function AdminDashboard() {
 
 
 
-  const [products,setProducts] = useState([]);
-  const [orders,setOrders] = useState([]);
-  const [users,setUsers] = useState([]);
+  const [products] = useState(() => {
+    const savedProducts =
+      JSON.parse(localStorage.getItem("products")) || [];
+    const mergedProducts = [...allProducts, ...savedProducts];
+    const uniqueProducts = mergedProducts.filter(
+      (item, index, self) =>
+        index === self.findIndex((p) => p.id === item.id)
+    );
+    return uniqueProducts.map((item) => ({
+      ...item,
+      stock: item.stock ?? 10,
+    }));
+  });
 
-  const [search,setSearch] = useState("");
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users")) || []
+  );
 
-  const [notifications,setNotifications] = useState(0);
+  const [orders] = useState(() => {
+    const userData =
+      JSON.parse(localStorage.getItem("users")) || [];
+    let allOrders = [];
+    userData.forEach((user) => {
+      const userOrders =
+        JSON.parse(
+          localStorage.getItem(`orders_${user.email}`)
+        ) || [];
+      allOrders.push(...userOrders);
+    });
+    return allOrders;
+  });
 
-  const [showNotifications,setShowNotifications] =
-  useState(false);
+  const [search, setSearch] = useState("");
 
+  const [notifications] = useState(
+    () => orders.filter((order) => order.status === "Pending").length
+  );
 
+  const [showNotifications, setShowNotifications] =
+    useState(false);
 
   const admin =
-  JSON.parse(
-    localStorage.getItem("currentUser")
-  ) || {
-    name:"Administrator",
-    email:"admin@gmail.com"
-  };
-
-
-
-
-
-  // ================= LOAD DATA =================
-
-
-  useEffect(()=>{
-
-
-    const savedProducts =
-    JSON.parse(
-      localStorage.getItem("products")
-    ) || [];
-
-
-
-    const mergedProducts = [
-      ...allProducts,
-      ...savedProducts
-    ];
-
-
-
-    const uniqueProducts =
-    mergedProducts.filter(
-      (item,index,self)=>
-      index ===
-      self.findIndex(
-        p=>p.id===item.id
-      )
-    );
-
-
-
-    const finalProducts =
-    uniqueProducts.map(item=>({
-
-      ...item,
-
-      stock:item.stock ?? 10
-
-    }));
-
-
-
-
-
-
-    // ADMIN ALL ORDERS
-
-   const userData =
-  JSON.parse(localStorage.getItem("users")) || [];
-
-let allOrders = [];
-
-userData.forEach((user) => {
-  const userOrders =
-    JSON.parse(
-      localStorage.getItem(`orders_${user.email}`)
-    ) || [];
-
-  allOrders.push(...userOrders);
-});
-
-setOrders(allOrders);
-
-setUsers(userData);
-
-setProducts(finalProducts);
-
-setNotifications(
-  allOrders.filter(
-    (order) => order.status === "Pending"
-  ).length
-);
-    
-  },[]);
-
-
-
-
+    JSON.parse(localStorage.getItem("currentUser")) || {
+      name: "Administrator",
+      email: "admin@gmail.com",
+    };
 
 
 

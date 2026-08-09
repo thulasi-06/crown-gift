@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import {
   FaGift,
@@ -26,65 +26,6 @@ import luxuryGift from "../assets/combo/Luxury Gift Box.jpg";
 import loveCombo from "../assets/combo/Love Combo.jpg";
 import comboBanner from "../assets/combo/scretboxbannar.jpg";
 
-export default function ComboGift(){
-
-const navigate = useNavigate();
-
-
-useEffect(()=>{
-
-const searchHandler=(e)=>{
-
-const value = e.detail.toLowerCase();
-
-
-const product = combos.find(
-(item)=>
-item.title.toLowerCase().includes(value)
-);
-
-
-if(product){
-
-setTimeout(()=>{
-
-document
-.getElementById(`product-${product.id}`)
-?.scrollIntoView({
-
-behavior:"smooth",
-block:"center"
-
-});
-
-
-},300);
-
-}
-
-
-};
-
-
-window.addEventListener(
-"searchProduct",
-searchHandler
-);
-
-
-
-return()=>{
-
-window.removeEventListener(
-"searchProduct",
-searchHandler
-);
-
-
-};
-
-
-},[]);
 const combos = [
 
 {
@@ -187,6 +128,66 @@ name:"Chocolate"
 }
 
 ];
+
+export default function ComboGift(){
+
+const navigate = useNavigate();
+
+
+useEffect(()=>{
+
+const searchHandler=(e)=>{
+
+const value = e.detail.toLowerCase();
+
+
+const product = combos.find(
+(item)=>
+item.title.toLowerCase().includes(value)
+);
+
+
+if(product){
+
+setTimeout(()=>{
+
+document
+.getElementById(`product-${product.id}`)
+?.scrollIntoView({
+
+behavior:"smooth",
+block:"center"
+
+});
+
+
+},300);
+
+}
+
+
+};
+
+
+window.addEventListener(
+"searchProduct",
+searchHandler
+);
+
+
+
+return()=>{
+
+window.removeEventListener(
+"searchProduct",
+searchHandler
+);
+
+
+};
+
+
+},[]);
 
 const addToCart = (combo) => {
 

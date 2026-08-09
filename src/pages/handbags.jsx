@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import hand from "../assets/hand.png";
 
@@ -11,7 +10,6 @@ import handbag5 from "../assets/girlimage/handbag5.jpg";
 import handbag6 from "../assets/girlimage/handbag6.jpg";
 
 function Handbags() {
-  const navigate = useNavigate();
 
   const handbagProducts = [
     { id: 101, name: "Leather Handbag", price: 2499, image: handbag },
