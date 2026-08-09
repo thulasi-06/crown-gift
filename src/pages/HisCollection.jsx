@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-import himProducts from "../data/himproducts";
+import himProducts from "../data/himProducts";
 import menBanner from "../assets/boysimage/boybanner.png";
 
 import {
